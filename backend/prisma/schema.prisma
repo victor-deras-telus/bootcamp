@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id      String   @id @default(uuid())
+  sid     String   @unique
+  data    String
+  expires DateTime
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  firstName   String?
+  lastName    String?
+  email       String        @unique
+  password    String
+  Transaction Transaction[]
+  Account     Account[]
+}
+
+model ActiveCurrency {
+  id           Int           @id @default(autoincrement())
+  currency     Currency      @relation(references: [code], fields: [code])
+  code         String        @unique
+  rate         Float
+  transactions Transaction[]
+  accounts     Account[]
+}
+
+model Currency {
+  code           String           @id
+  name           String
+  symbol         String
+  exp            Int
+  flag           String?
+  ActiveCurrency ActiveCurrency[]
+}
+
+model Transaction {
+  id                    Int                 @id @default(autoincrement())
+  user                  User                @relation(fields: [userId], references: [id])
+  userId                Int
+  title                 String
+  amount                Float
+  date                  DateTime            @default(now())
+  info                  String?
+  type                  TransactionType     @relation(references: [id], fields: [transactionTypeId])
+  transactionTypeId     Int
+  category              TransactionCategory @relation(references: [id], fields: [transactionCategoryId])
+  transactionCategoryId Int
+  currency              ActiveCurrency      @relation(references: [code], fields: [currencyId])
+  currencyId            String
+  accountId             Int
+  relAccountId          Int?
+
+  Account_Transaction_mainAccount Account? @relation("Transaction_mainAccount", fields: [accountId], references: [id])
+  Account_Transaction_relAccount  Account? @relation("Transaction_relAccount", fields: [relAccountId], references: [id])
+}
+
+model TransactionType {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @unique
+  Transactions        Transaction[]
+  TransactionCategory TransactionCategory[]
+}
+
+model TransactionCategory {
+  id                Int             @id @default(autoincrement())
+  name              String          @unique
+  type              TransactionType @relation(references: [id], fields: [transactionTypeId])
+  transactionTypeId Int
+  Transactions      Transaction[]
+}
+
+model Account {
+  id                      Int            @id @default(autoincrement())
+  user                    User           @relation(fields: [userId], references: [id])
+  userId                  Int
+  type                    AccountType    @relation(references: [id], fields: [accountType])
+  accountType             Int
+  name                    String
+  currency                ActiveCurrency @relation(references: [code], fields: [currencyId])
+  currencyId              String
+  balance                 Float?          @default(0)
+  active                  Boolean?        @default(true)
+  Transaction_mainAccount Transaction[]  @relation("Transaction_mainAccount")
+  Transaction_relAccount  Transaction[]  @relation("Transaction_relAccount")
+}
+
+model AccountType {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  Accounts Account[]
+}
