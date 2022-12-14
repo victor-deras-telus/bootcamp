@@ -3,28 +3,47 @@ const { DateTime } = require("luxon");
 
 const transaction_post = async (req, res) => {
   if (req.session.userId) {
-    const date = new Date(req.body.date).toISOString();
-    const wallet = await prisma.wallet
+    const date = new Date().toISOString();
+    const account = await prisma.account
       .findUnique({
         where: {
-          userId: req.session.userId,
+          id: req.body.accountId,
         },
       })
       .catch();
 
+      let relAccount = null;
+      
+      
+      if(req.body.transactionTypeId === 3)
+      {
+        relAccount = await prisma.account
+        .findUnique({
+          where: {
+            id: req.body.relAccountId,
+          },
+        })
+        .catch();
+      }
+
     try {
       await prisma.transaction.create({
         data: {
+          userId: req.session.userId,
           title: req.body.title,
-          money: req.body.money,
+          amount: req.body.amount,
           date: date,
           info: req.body.info,
+          transactionTypeId: req.body.transactionTypeId,
           transactionCategoryId: req.body.transactionCategoryId,
-          walletId: wallet.id,
+          currencyId: req.body.currencyId,
+          accountId: account.id,
+          relAccountId: relAccount?.id,
         },
       });
       res.status(200).send("success");
-    } catch {
+    } catch(err) {
+      console.log(err);
       res.status(400).send([{ instancePath: "Err", message: "Err" }]);
     }
   } else res.status(401).send("please login");

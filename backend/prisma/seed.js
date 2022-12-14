@@ -1090,7 +1090,7 @@ const seed = async () => {
             { transactionTypeId:2, name: "Bonus" },
             { transactionTypeId:2, name: "Savings Interest" },
             { transactionTypeId:2, name: "Misc" },
-
+            { transactionTypeId:3, name: "Transfer" },
           ],
           skipDuplicates: true,
         })
