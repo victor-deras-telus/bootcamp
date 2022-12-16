@@ -1,0 +1,15 @@
+.StyledCollapse {
+  border: none;
+  border-radius: 0px;
+  box-shadow: none;
+  background: #55cfdf;
+
+  &.ant-collapse-content {
+    font-size: 25px;
+    color: #fff;
+  }
+  &.ant-collapse-header {
+    font-size: 1rem;
+    color: #fff;
+  }
+}

@@ -1,7 +1,110 @@
+@import "../Colors/colors.scss";
+
 .container {
+  width: 100%;
+  margin-left: max(5vw, 2rem);
+  justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    margin-left: 0;
+  }
+
+  .card-container {
+    margin-top: 0px;
+  }
+  .card-container p {
+    margin: 0;
+  }
+
+  .card-container > .ant-tabs-card .ant-tabs-content {
+    height: 120px;
+    margin-top: -16px;
+  }
+  .card-container > .ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane {
+    padding: 16px;
+    background: #fff;
+  }
+  .card-container > .ant-tabs-card > .ant-tabs-nav::before {
+    display: none;
+  }
+
+  .ant-tabs {
+    overflow: visible;
+  }
+
+  .ant-tabs-nav {
+    background-color: $colorWhite !important;
+    margin: 0px -15px 25px -25px !important;
+    padding: 0px 35px !important;
+  }
+
+  .ant-tabs-tab-btn {
+    color: $colorGreyShark !important;
+  }
+
+  .ant-tabs-tab-disabled > .ant-tabs-tab-btn {
+    color: rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .ant-tabs-tab-active > .ant-tabs-tab-btn {
+    color: $colorAccessibleGreen !important;
+  }
+
+  .action-common-ui {
+    background-color: $colorAccessibleGreen !important;
+    border-color: $colorAccessibleGreen !important;
+  }
+
+  .action-common-ui > span {
+    margin-right: 5px;
+  }
+
+  .ant-tabs-ink-bar {
+    background-color: $colorTelusGreen !important;
+  }
+
+  .ant-card-head-title {
+    color: $colorAccessibleGreen !important;
+  }
+  .ant-card-body {
+    padding-right: 20px !important;
+    padding-left: 20px !important;
+  }
+
+  .spin-container-div {
+    margin: 20px 0;
+    margin-bottom: 20px;
+    padding: 30px 50px;
+    text-align: center;
+    background: $colorGreyBackground;
+    border-radius: 4px;
+  }
+
+  .badge-tab-header > sup {
+    background-color: $colorAccessibleGreen !important;
+  }
+
+  .overview-card-container {
     width: 100%;
-    margin-left: max(5vw, 2rem);
-    @media screen and (max-width: 768px) {
-        margin-left: 0;
+  }
+
+  .ant-table {
+    display: block;
+    @media screen and (max-width: 600px) {
+      overflow-x: auto;
     }
+  }
+  
+  .ant-table-thead > tr > th {
+    color: $colorGreyShuttle;
+    font-weight: bold;
+    height: 50px !important;
+  }
+  
+  .ant-table-tbody > tr.ant-table-row-selected > td {
+    background: $colorGreyBackground;
+  }
+  
+  .ant-checkbox-indeterminate .ant-checkbox-inner::after {
+    background: $colorTelusPurple;
+  }
 }

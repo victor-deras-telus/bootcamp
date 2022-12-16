@@ -4,26 +4,27 @@ const { DateTime } = require("luxon");
 const accounts_get = async (req, res) => {
   if (req.session.userId) {
     let accounts;
-    
+
     try {
       accounts = await prisma.account
         .findMany({
           where: {
             active: true,
+            userId: req.session.userId,
           },
           include: {
             type: true, // Return all fields
             currency: {
               include: {
                 currency: true,
-              }
-            }
+              },
+            },
           },
         })
         .catch((err) => console.log(err));
 
       if (accounts) res.status(200).send(accounts);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       res.status(400).send("error");
     }
@@ -33,14 +34,30 @@ const accounts_get = async (req, res) => {
 const accountTypes_get = async (req, res) => {
   if (req.session.userId) {
     let accountTypes;
-    
+
     try {
       accountTypes = await prisma.accountType
-        .findMany()
+        .findMany({
+          include: {
+            Accounts: {
+              where: {
+                active: true,
+                userId: req.session.userId,
+              },
+              include: {
+                currency: {
+                  include: {
+                    currency: true,
+                  },
+                },
+              },
+            },
+          },
+        })
         .catch((err) => console.log(err));
 
       if (accountTypes) res.status(200).send(accountTypes);
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       res.status(400).send("error");
     }
@@ -49,8 +66,7 @@ const accountTypes_get = async (req, res) => {
 
 const accounts_post = async (req, res) => {
   if (req.session.userId) {
-   
-   try {
+    try {
       await prisma.account.create({
         data: {
           userId: req.session.userId,
@@ -60,7 +76,7 @@ const accounts_post = async (req, res) => {
         },
       });
       res.status(200).send("success");
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       res.status(400).send([{ instancePath: "Err", message: err }]);
     }
@@ -98,9 +114,7 @@ const account_delete = async (req, res) => {
 };
 
 const account_update = async (req, res) => {
-
   if (req.session.userId) {
-    
     try {
       await prisma.account.update({
         where: {
@@ -124,7 +138,6 @@ const account_update = async (req, res) => {
     res.status(401).send("Please Login");
   }
 };
-
 
 module.exports = {
   accounts_get,

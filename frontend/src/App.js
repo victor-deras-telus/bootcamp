@@ -29,9 +29,6 @@ function App() {
         <AuthProvider>
           <PageContainer optionClass={"pageContainer"}>
             <Navbar />
-            <div className="mobileMenu">
-              <MobileNavbar />
-            </div>
             <Routes>
               {/* AUTH PAGE */}
               <Route path="/auth" element={<Auth />} />
@@ -63,7 +60,6 @@ function App() {
             </Routes>
           </PageContainer>
         </AuthProvider>
-        <ReactQueryDevtools />
       </QueryClientProvider>
     </div>
   );

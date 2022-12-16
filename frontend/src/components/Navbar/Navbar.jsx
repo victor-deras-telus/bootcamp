@@ -34,7 +34,7 @@ const Navbar = () => {
     <div className={styles.container}>
       <div className={styles.logo}>
         <Link to="/">
-          <div>Tracker</div>
+          <div>Expense Tracker</div>
         </Link>
       </div>
 
@@ -48,7 +48,7 @@ const Navbar = () => {
 
           {/* CATEGORIES */}
           <ListItemLink url="categories">
-            <h3>Categories</h3>
+            <h3>Accounts</h3>
           </ListItemLink>
 
           {/* TRANSACTIONS */}

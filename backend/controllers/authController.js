@@ -32,7 +32,7 @@ const auth_login = async (req, res) => {
 };
 
 const auth_register = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, passwordConfirm, firstName, lastName } = req.body;
 
   let emailCheck;
   try {
@@ -45,6 +45,12 @@ const auth_register = async (req, res) => {
     res
       .status(400)
       .send([{ instancePath: "Email Availability", message: "Error" }]);
+  }
+
+  if (password !== passwordConfirm){
+    res
+      .status(500)
+      .send([{ instancePath: "Password", message: "Confirm password doesn't match" }]);
   }
 
   if (emailCheck)
@@ -61,8 +67,8 @@ const auth_register = async (req, res) => {
         data: {
           email: email,
           password: salted_password,
-          firstName: "",
-          lastName: "",
+          firstName: firstName,
+          lastName: lastName,
         },
       });
     } catch {
@@ -70,17 +76,7 @@ const auth_register = async (req, res) => {
       return;
     }
 
-    try {
-      await prisma.wallet.create({
-        data: {
-          userId: newUser?.id,
-        },
-      });
-      res.status(200).send("ok");
-    } catch {
-      res.status(400).send("err");
-      return;
-    }
+    res.status(200).send("ok");
   }
 };
 

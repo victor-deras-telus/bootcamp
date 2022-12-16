@@ -2,9 +2,12 @@ import styles from "../styles/authComponents/Auth.module.scss";
 
 import MainContainer from "../components/Containers/MainContainer";
 import { Title } from "../components/Titles/Titles";
-
+import { Button, Card, Form, Input, Row, Col } from "antd";
 import { useState, useEffect, useContext } from "react";
-
+import {
+  MANDATORY_FIELD_CONF,
+  NO_WHITESPACE_ONLY,
+} from "../constants/formConstants";
 import { useLoginUser, useRegisterUser } from "../queries/user";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvider";
@@ -13,9 +16,14 @@ const Auth = () => {
   //LOGIN
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
+
+  const [isRegister, setIsRegister] = useState(false);
   //REGISTER
   const [regEmail, setRegEmail] = useState("");
   const [regPw, setRegPw] = useState("");
+  const [regPwConfirm, setRegPwConfirm] = useState("");
+  const [regFirstName, setRegFirstName] = useState("");
+  const [regLastName, setRegLastName] = useState("");
 
   //CONTEXT
   const { auth, setAuth } = useContext(AuthContext);
@@ -31,6 +39,9 @@ const Auth = () => {
   let regBody = {
     email: regEmail,
     password: regPw,
+    passwordConfirm: regPwConfirm,
+    firstName: regFirstName,
+    lastName: regLastName,
   };
 
   const {
@@ -52,84 +63,113 @@ const Auth = () => {
 
   return (
     <MainContainer>
-      {/* LOGIN */}
-      <form action="submit" onSubmit={(e) => e.preventDefault()}>
-        <div className={styles.container}>
-          <Title>Login</Title>
-          <span>Email :</span>
-          <input
-            type="email"
-            autoComplete="username"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-          <span>Password :</span>
-          <input
-            type="password"
-            onChange={(e) => setPw(e.target.value)}
-            value={pw}
-            autoComplete="password"
-          />
+      <Title>Log In/Sign Up</Title>
 
-          {/* LOGIN BTN */}
-          <button
-            onClick={() =>
-              loginHandler(body, {
-                onError: () => {
-                  console.log(loginErr);
-                },
-                onSuccess: () => setAuth(true),
-              })
-            }
-          >
-            Login Now
-          </button>
-        </div>
-      </form>
+      {isRegister ? (
+        <Card>
+          {/* LOGIN */}
+          <Form layout="vertical">
+            <div className={styles.container}>
+              <Row>
+                <Col>
+                  <Form.Item
+                    label="Email"
+                    name="userEmail"
+                    rules={[MANDATORY_FIELD_CONF, NO_WHITESPACE_ONLY]}
+                  >
+                    <Input
+                      onChange={(e) => setRegEmail(e.target.value)}
+                      type="email"
+                      autoComplete="username"
+                      value={regEmail}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col> </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Item
+                    label="First Name"
+                    name="firstname"
+                    rules={[MANDATORY_FIELD_CONF, NO_WHITESPACE_ONLY]}
+                  >
+                    <Input
+                      onChange={(e) => setRegFirstName(e.target.value)}
+                      type="text"
+                      autoComplete="firstname"
+                      value={regFirstName}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item
+                    label="Last Name"
+                    name="lastname"
+                    rules={[MANDATORY_FIELD_CONF, NO_WHITESPACE_ONLY]}
+                  >
+                    <Input
+                      onChange={(e) => setRegLastName(e.target.value)}
+                      type="text"
+                      autoComplete="lastname"
+                      value={regLastName}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  {" "}
+                  <Form.Item
+                    label="Password"
+                    name="userPassword"
+                    rules={[MANDATORY_FIELD_CONF, NO_WHITESPACE_ONLY]}
+                  >
+                    <Input
+                      onChange={(e) => setRegPw(e.target.value)}
+                      type="password"
+                      autoComplete="password"
+                      value={regPw}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item
+                    label="Confirm Password"
+                    name="userPasswordConfirm"
+                    rules={[MANDATORY_FIELD_CONF, NO_WHITESPACE_ONLY]}
+                  >
+                    <Input
+                      onChange={(e) => setRegPwConfirm(e.target.value)}
+                      type="password"
+                      autoComplete="password"
+                      value={regPwConfirm}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-      {/* REGISTER FORM */}
-      <form
-        action="submit"
-        onSubmit={(e) => e.preventDefault()}
-        className={styles.registerForm}
-      >
-        <div className={styles.container}>
-          <Title>Register</Title>
-          <span>Email :</span>
-          <input
-            type="email"
-            onChange={(e) => setRegEmail(e.target.value)}
-            value={regEmail}
-            autoComplete="email"
-          />
-          <span>Password :</span>
-          <input
-            type="password"
-            onChange={(e) => setRegPw(e.target.value)}
-            value={regPw}
-            autoComplete="new-password"
-          />
-
-          {/* REGISTER BTN */}
-          <button
-            onClick={() =>
-              registerHandler(regBody, {
-                //ONSUCCESS USE LOGINHANDLER
-                onSuccess: () => {
-                  loginHandler(regBody, {
-                    onSuccess: () => setAuth(true),
-                    onError: () => {
-                      console.log(loginErr);
-                    },
-                  });
-                },
-              })
-            }
-          >
-            Register Now
-          </button>
-          {/* ADD ERROR */}
-          {registerError && (
+              <Row>
+                <Col span="2">
+                  <Button
+                    onClick={() =>
+                      registerHandler(regBody, {
+                        //ONSUCCESS USE LOGINHANDLER
+                        onSuccess: () => {
+                          loginHandler(regBody, {
+                            onSuccess: () => setAuth(true),
+                            onError: () => {
+                              console.log(loginErr);
+                            },
+                          });
+                        },
+                      })
+                    }
+                  >
+                    Register Now
+                  </Button>
+{/* ADD ERROR */}
+{registerError && (
             <div style={{ color: "red", marginTop: "2rem" }}>
               {registerErr.response.data.map((err, index) => {
                 return (
@@ -139,9 +179,71 @@ const Auth = () => {
                 );
               })}
             </div>
-          )}
-        </div>
-      </form>
+          )}                  
+                </Col>
+              </Row>
+            </div>
+          </Form>
+        </Card>
+      ) : (
+        <Card>
+          {/* LOGIN */}
+          <Form layout="vertical">
+            <div className={styles.container}>
+              <Row>
+                <Col>
+                  <Form.Item
+                    label="Email"
+                    name="userEmail"
+                    rules={[MANDATORY_FIELD_CONF, NO_WHITESPACE_ONLY]}
+                  >
+                    <Input
+                      onChange={(e) => setEmail(e.target.value)}
+                      type="email"
+                      autoComplete="username"
+                      value={email}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Form.Item
+                label="Password"
+                name="userPassword"
+                rules={[MANDATORY_FIELD_CONF, NO_WHITESPACE_ONLY]}
+              >
+                <Row justify="space-between">
+                  <Input
+                    onChange={(e) => setPw(e.target.value)}
+                    type="password"
+                    autoComplete="password"
+                    value={pw}
+                  />
+                </Row>
+              </Form.Item>
+              <Row>
+                <Col>
+                  {" "}
+                  <Button
+                    onClick={() =>
+                      loginHandler(body, {
+                        onError: () => {
+                          console.log(loginErr);
+                        },
+                        onSuccess: () => setAuth(true),
+                      })
+                    }
+                  >
+                    Login Now
+                  </Button>
+                </Col>
+                <Col>
+                  <Button onClick={() => setIsRegister(true)}>Sign Up</Button>
+                </Col>
+              </Row>
+            </div>
+          </Form>
+        </Card>
+      )}
     </MainContainer>
   );
 };
