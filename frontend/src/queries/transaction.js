@@ -48,8 +48,6 @@ const useTransactionsGet = ({
         skip,
         take,
       }) ,    {
-        refetchOnWindowFocus: false,
-        keepPreviousData: true,
       } );
 
 const useTransactionPost = () => useMutation("postTransaction", postTr);

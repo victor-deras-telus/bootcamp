@@ -10,6 +10,7 @@ const userRoutes = require("./routes/userRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
 const categoriesRoutes = require("./routes/categoriesRoutes");
 const accountsRoutes = require("./routes/accountsRoutes");
+const currencyRoutes = require("./routes/currencyRoutes");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -48,6 +49,7 @@ app.use(
   })
 );
 
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //ROUTES
@@ -56,6 +58,7 @@ app.use("/api", userRoutes);
 app.use("/api", transactionRoutes);
 app.use("/api", categoriesRoutes);
 app.use("/api", accountsRoutes);
+app.use("/api", currencyRoutes);
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "index.html"));
 });

@@ -15,6 +15,17 @@ const AccountsTable = (accountsData) => {
       key: "type",
     },    
     {
+      title: "Currency",
+      dataIndex: "currency",
+      key: "currency",
+    }, 
+    {
+      title: "Rate",
+      dataIndex: "rate",
+      key: "rate",
+      align: "right",
+    },    
+    {
       title: "Balance",
       dataIndex: "balance",
       key: "balance",
@@ -28,6 +39,8 @@ const AccountsTable = (accountsData) => {
         name: account.name,
         type: item.name,
         balance: `${parseFloat(account.balance)} ${account.currencyId}`, //.toFixed(item.currency.currency.exp)
+        currency: account.currencyId,
+        rate: account.currency.rate,
       };
       tableData.push(record);
     });

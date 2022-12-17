@@ -4,7 +4,7 @@ import { useTransactionsGet } from "../queries/transaction";
 import { DateTime } from "luxon";
 import TransactionsTable from "./TransactionsTable";
 
-const TransactionListing = (maxTransactions=5) => {
+const TransactionListing = (title, maxTransactions=5 , categoryFilter = null, accountFilter = null, startDateFilter = undefined, endDateFilter = undefined) => {
   const timeSpan = DateTime.now()
     .minus({
       days: 7,
@@ -18,12 +18,13 @@ const TransactionListing = (maxTransactions=5) => {
 
   const { data: transactionsData, isFetched} =
     useTransactionsGet({
-      firstDate: timeSpan,
-      category: undefined,
-      account:undefined,
+      firstDate: title.startDateFilter?title.startDateFilter:timeSpan,
+      lastDate: title.endDateFilter,
+      category: title.categoryFilter,
+      account: title.accountFilter,
       [sortingField]: order,
       skip: skip,
-      take: maxTransactions.maxTransactions,
+      take: title.maxTransactions,
     });
 
   const { Panel } = Collapse;
@@ -35,7 +36,7 @@ const TransactionListing = (maxTransactions=5) => {
 
   return (
     <Collapse bordered={false} defaultActiveKey={["1"]}>
-      <Panel header="RECENT TRANSACTIONS" key="1">
+      <Panel header={title.title} key="1">
         {isFetched ? (
           <TransactionsTable transactionData={transactions} />
         ) : (

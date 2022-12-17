@@ -1,4 +1,4 @@
-import { Row, Col } from "antd";
+import { Row, Col, Space, Card } from "antd";
 
 import AccountListing from "../components/accountListing";
 import TransactionsCard from "../components/TransactionsCard";
@@ -6,19 +6,15 @@ import TransactionListing from "../components/TransactionListing";
 
 const Home = () => {
   return (
-    <Row gutter={100}>
-      <Col>
+    <Space direction="horizontal" size="large" align="baseline">
+      <Card>
         <AccountListing />
-      </Col>
-      <Col>
-        <Row>
-          <TransactionsCard />
-        </Row>
-        <Row>
-          <TransactionListing />
-        </Row>
-      </Col>
-    </Row>
+      </Card>
+      <Card>
+        <TransactionsCard />
+        {TransactionListing("RECENT TRANSACTIONS")}
+      </Card>
+    </Space>
   );
 };
 

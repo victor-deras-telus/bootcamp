@@ -1,6 +1,10 @@
 const { prisma } = require("../constats/config.js");
 const { DateTime } = require("luxon");
 
+const validateNull = (input) =>{
+  return input==null?undefined:input;
+}
+
 const transaction_post = async (req, res) => {
   if (req.session.userId) {
     const date = new Date().toISOString();
@@ -61,6 +65,16 @@ const transactions_get = async (req, res) => {
     if (!Number(take)) {
       take = 5;
     }
+    console.log({ firstDate, lastDate, category, account});
+
+const greaterDate =               lastDate?lastDate.substring(1,11):undefined;   
+const lowerDate =               firstDate?firstDate.substring(1,11):undefined;
+
+console.log(DateTime.fromISO(lowerDate).toISO());
+console.log(DateTime.fromISO(greaterDate).toISO());
+
+
+
     const transactions = await prisma.transaction
       .findMany({
         where: {
@@ -69,13 +83,13 @@ const transactions_get = async (req, res) => {
 
           date: {
             gte:
-              firstDate != undefined
-                ? DateTime.fromISO(firstDate).toISO()
-                : DateTime.now().minus({ days: 30 }).toISO(),
-            lt:
-              lastDate != undefined
-                ? DateTime.fromISO(lastDate).toISO()
-                : DateTime.now().toISO(),
+            validateNull(lowerDate != undefined
+              ? DateTime.fromISO(lowerDate).toISO()
+              : DateTime.now().minus({ days: 30 }).toISO()),
+            lte:
+            validateNull(greaterDate != undefined
+              ? DateTime.fromISO(greaterDate).toISO()
+              : DateTime.now().toISO()),
           },
           transactionCategoryId: {
             equals: category != undefined ? parseInt(category) : undefined,

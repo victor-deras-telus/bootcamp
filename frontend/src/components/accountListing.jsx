@@ -1,9 +1,9 @@
 import { Collapse } from "antd";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useAccountsGet } from "../queries/account";
-import { useState, useEffect } from "react";
 import AccountTypeTable from "./accountTypeTable";
 import styles from "../styles/accountListing.module.scss";
+
 
 const AccountListing = () => {
   const { Panel } = Collapse;
@@ -14,7 +14,6 @@ const AccountListing = () => {
     if (accountData) setAccounts(accountData.data);
     console.log(accountData);
   }, [accountData]);
-
 
   const getAccountsTotal = (accountsObject) => {
     let totalAmount = 0;
@@ -28,13 +27,16 @@ const AccountListing = () => {
     });
 
     return `TOTAL IN ACCOUNTS ${parseFloat(totalAmount).toFixed(2)} USD`;
-
   };
 
   return (
     <div>
       {isAccountsFetched ? (
-        <Collapse bordered={false} defaultActiveKey={["1"]} className={styles.StyledCollapse}>
+        <Collapse
+          bordered={false}
+          defaultActiveKey={["1"]}
+          className={styles.StyledCollapse}
+        >
           <Panel header={getAccountsTotal(accounts)} key="1">
             {accounts.map((account) => {
               return <AccountTypeTable accountTypeData={account} />;
