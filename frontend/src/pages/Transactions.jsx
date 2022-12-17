@@ -3,12 +3,12 @@ import { Title } from "../components/Titles/Titles";
 import MainContainer from "../components/Containers/MainContainer";
 import AddTransactionForm from "../components/transactionComponents/AddTransactionForm";
 import DeleteTransactionForm from "../components/transactionComponents/DeleteTransactionForm";
+import TransactionListing from "../components/TransactionListing";
 const Transactions = () => {
   return (
     <MainContainer>
       <Title>Transactions</Title>
-      <AddTransactionForm />
-      <DeleteTransactionForm />
+<TransactionListing maxTransactions={200}/>
     </MainContainer>
   );
 };

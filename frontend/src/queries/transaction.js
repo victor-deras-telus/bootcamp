@@ -12,38 +12,45 @@ const getTrs = async (params) => {
   );
 };
 
+
+
 const postTr = async (params) => {
   return await Ax.post("transaction", params);
 };
+
+
+
 const useTrasactionDelete = () => useMutation("deleteTr", deleteTr);
+
+
+
 const useTransactionsGet = ({
   firstDate,
   lastDate,
   category,
+  account,
   dateSort,
   priceSort,
   skip,
   take,
-  key,
 }) =>
-  useQuery(
-    key,
+  useQuery
+  (
+    "Transactions",
     () =>
       getTrs({
         firstDate,
         lastDate,
         category,
+        account,
         dateSort,
         priceSort,
         skip,
         take,
-      }),
-    {
-      refetchOnWindowFocus: false,
-      enabled: false,
-      keepPreviousData: true,
-    }
-  );
+      }) ,    {
+        refetchOnWindowFocus: false,
+        keepPreviousData: true,
+      } );
 
 const useTransactionPost = () => useMutation("postTransaction", postTr);
 export { useTransactionsGet, useTrasactionDelete, useTransactionPost };

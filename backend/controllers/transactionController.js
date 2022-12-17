@@ -14,6 +14,7 @@ const transaction_post = async (req, res) => {
 
       let relAccount = null;
       
+      console.log(req.body);
       
       if(req.body.transactionTypeId === 3)
       {
@@ -32,7 +33,7 @@ const transaction_post = async (req, res) => {
           userId: req.session.userId,
           title: req.body.title,
           amount: req.body.amount,
-          date: date,
+          date: req.body.date?req.body.date:date,
           info: req.body.info,
           transactionTypeId: req.body.transactionTypeId,
           transactionCategoryId: req.body.transactionCategoryId,
@@ -51,7 +52,7 @@ const transaction_post = async (req, res) => {
 
 const transactions_get = async (req, res) => {
   if (req.session.userId) {
-    let { firstDate, lastDate, category, dateSort, priceSort, take, skip } =
+    let { firstDate, lastDate, category, account, dateSort, priceSort, take, skip } =
       req.query;
 
     if (!Number(skip)) {
@@ -60,13 +61,12 @@ const transactions_get = async (req, res) => {
     if (!Number(take)) {
       take = 5;
     }
-
     const transactions = await prisma.transaction
       .findMany({
         where: {
-          wallet: {
+
             userId: req.session.userId,
-          },
+
           date: {
             gte:
               firstDate != undefined
@@ -80,28 +80,56 @@ const transactions_get = async (req, res) => {
           transactionCategoryId: {
             equals: category != undefined ? parseInt(category) : undefined,
           },
+          accountId: {
+            equals: account != undefined ? parseInt(account) : undefined,
+          },          
         },
         skip: parseInt(skip),
         take: parseInt(take),
         orderBy: {
           date: dateSort != undefined ? dateSort : undefined,
-          money: priceSort != undefined ? priceSort : undefined,
+          amount: priceSort != undefined ? priceSort : undefined,
         },
         select: {
           title: true,
-          money: true,
+          amount: true,
           date: true,
           info: true,
           id: true,
-          category: {
+          accountId: true,
+          type: {
             select: {
+              id: true,
               name: true,
             },
           },
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          currency: {
+            select: {
+              code: true,
+              rate: true,
+            },
+          },
+          Account_Transaction_mainAccount: {
+            select: {
+              name: true,
+            },
+          },   
+          Account_Transaction_relAccount: {
+            select: {
+              name: true,
+            },
+          },                                      
         },
       })
       .catch((e) => {
-        res.status(400).send("error");
+        console.log(e);
+        res.status(400).send(e);
       });
     res.json(transactions);
   } else res.status(401).send("please login");

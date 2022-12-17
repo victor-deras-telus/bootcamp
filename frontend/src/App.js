@@ -4,7 +4,6 @@ import { Routes, Route, Outlet } from "react-router-dom";
 //COMPONENTS
 import PageContainer from "./components/Containers/PageContainer";
 import Navbar from "./components/Navbar/Navbar";
-import MobileNavbar from "./components/Navbar/MobileNavbar";
 import MainContainer from "./components/Containers/MainContainer";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { AuthProvider } from "./context/AuthProvider";
@@ -15,10 +14,10 @@ import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import Transactions from "./pages/Transactions";
-import Categories from "./pages/Categories";
+import Accounts from "./pages/Accounts";
 
 //REACT QUERY
-import { ReactQueryDevtools } from "react-query/devtools";
+
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "./constants/config";
 
@@ -43,7 +42,7 @@ function App() {
                 {/* TRANSACTIONS */}
                 <Route path="/transactions" element={<Transactions />} />
                 {/* CATEGORIES */}
-                <Route path="/categories" element={<Categories />} />
+                <Route path="/categories" element={<Accounts />} />
 
                 {/* 404 */}
                 <Route

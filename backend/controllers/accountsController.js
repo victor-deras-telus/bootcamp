@@ -116,16 +116,24 @@ const account_delete = async (req, res) => {
 const account_update = async (req, res) => {
   if (req.session.userId) {
     try {
+
+      const accountData = await prisma.account
+      .findUnique({
+        where: {
+          id: req.body.id
+        },
+      });
+console.log(accountData);
       await prisma.account.update({
         where: {
           id: req.body.id,
         },
         data: {
-          name: req.body.name,
-          currencyId: req.body.currencyId,
-          accountType: req.body.accountType,
-          balance: req.body.balance,
-          active: req.body.active,
+          name: req.body.name?req.body.name:accountData.name,
+          currencyId: req.body.currencyId?req.body.currencyId:accountData.currencyId,
+          accountType: req.body.accountType?req.body.accountType:accountData.accountType,
+          balance: req.body.balance?req.body.balance:accountData.balance,
+          active: req.body.active?req.body.active:accountData.active,
         },
       });
       res.status(200).send("Updated");

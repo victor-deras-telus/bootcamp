@@ -56,11 +56,6 @@ const Navbar = () => {
             <h3>Transactions</h3>
           </ListItemLink>
 
-          {/* Wallet */}
-          <ListItemLink url="wallet">
-            <h3>Wallet</h3>
-          </ListItemLink>
-
           {/* Profile */}
           <div className={styles.mobileMenuLinks}>
             <ListItemLink url="profile">

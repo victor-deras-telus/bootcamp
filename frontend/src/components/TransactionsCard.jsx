@@ -9,7 +9,8 @@ const TransactionsCard = () => {
   const [categories, setCategories] = useState([]);
   const { data: accountData, isFetched: isAccountsFetched } = useAccountsGet();
 
-  const { data: categoryData, isFetched: isCategoryFetched } = useCategoriesGet();
+  const { data: categoryData, isFetched: isCategoryFetched } =
+    useCategoriesGet();
 
   useEffect(() => {
     if (accountData) setAccounts(accountData.data);
@@ -54,12 +55,12 @@ const TransactionsCard = () => {
             onTab1Change(key);
           }}
         >
-          {(isAccountsFetched && isCategoryFetched) ? (
+          {isAccountsFetched && isCategoryFetched ? (
             <TransactionForm
               transactionType={activeTabKey1}
-              categoriesData={categories} 
+              categoriesData={categories}
               accountsData={accounts}
-            ></TransactionForm>
+            />
           ) : (
             <div>Loading...</div>
           )}

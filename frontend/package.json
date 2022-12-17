@@ -13,6 +13,7 @@
     "has-flag": "^5.0.1",
     "isexe": "^2.0.0",
     "luxon": "^2.3.1",
+    "moment": "^2.29.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
