@@ -19,8 +19,5 @@ const CURRENCY_RATES =[
   rate: "0.823554"
   }
   ];
-const AXIOS_URL =
-  process.env.NODE_ENV === "production"
-    ? "http://localhost:5001/api/"
-    : "http://localhost:5000/api/";
+const AXIOS_URL = "http://localhost:5000/api/";
 export { AXIOS_URL, CURRENCY_RATES, queryClient };

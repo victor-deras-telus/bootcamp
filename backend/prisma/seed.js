@@ -1112,8 +1112,8 @@ const seed = async () => {
           console.log(err);
         });
     }    
-  } catch {
-    console.log("error seeding");
+  } catch(err) {
+    console.log(err);
   }
 };
 

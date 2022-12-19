@@ -1,0 +1,27 @@
+services:
+  # Frontend Service
+  frontend:
+    image: frontend:0.1.0
+    ports:
+      - 3000:3000
+   # Backend Service
+  backend:
+    image: backend:0.1.0
+    ports:
+      - 5000:5000
+    environment:
+      - DATABASE_URL=postgresql://postgres:mypass@postgres:5432/postgres
+    depends_on:
+      - postgres
+  # Database Service    
+  postgres:
+    image: postgres
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=mypass
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - pgdisk:/var/lib/postgresql/data
+volumes:
+  pgdisk:

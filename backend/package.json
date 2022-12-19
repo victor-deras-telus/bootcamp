@@ -8,7 +8,8 @@
     "server": "nodemon server.js",
     "frontend": "cd ../frontend && npm run start",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
-    "buildClient": "cd ../frontend && npm run build"
+    "buildClient": "cd ../frontend && npm run build",
+    "prismaRun": "prisma generate && prisma migrate dev && prisma db seed && node server.js"
   },
   "author": "",
   "license": "ISC",

@@ -25,7 +25,7 @@ app.use(express.static(path.join(__dirname, "client")));
 app.use(
   cors({
     origin: [
-      "http://localhost:3006",
+      "http://localhost:3000",
       "https://localhost:5000",
     ],
     methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD", "DELETE", "PATCH"],

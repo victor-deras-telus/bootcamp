@@ -1,0 +1,8 @@
+namespace: expense-tracker
+
+resources:
+  - database.yaml
+  - backend.yaml
+  - frontend.yaml
+  - namespace.yaml
+

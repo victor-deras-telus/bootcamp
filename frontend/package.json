@@ -29,7 +29,8 @@
     "start": "react-scripts start",
     "build": "BUILD_PATH='../backend/client' react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "client-build": "BUILD_PATH=../backend/client react-scripts build"    
   },
   "eslintConfig": {
     "extends": [
