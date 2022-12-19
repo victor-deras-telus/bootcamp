@@ -6,7 +6,7 @@
 
 FROM node:16.13.1-alpine as build
 
-ENV BACKEND_URL=http://localhost:5000/api/
+ENV REACT_APP_BACKEND_URL=http://34.133.12.103:5000/api/
 
 COPY . /opt/app
 
