@@ -15,6 +15,9 @@ spec:
       containers:
       - name: front-app
         image: victorderasti/expense-frontend:0.1.0
+        env:
+          - name: REACT_APP_BACKEND_URL
+            value: "http://localhost:5000/api/"        
         resources:
           limits:
             memory: "256Mi"

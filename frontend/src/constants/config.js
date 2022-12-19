@@ -19,5 +19,7 @@ const CURRENCY_RATES =[
   rate: "0.823554"
   }
   ];
-const AXIOS_URL = "http://localhost:5000/api/";
+const AXIOS_URL = process.env.REACT_APP_BACKEND_URL;
+
+
 export { AXIOS_URL, CURRENCY_RATES, queryClient };

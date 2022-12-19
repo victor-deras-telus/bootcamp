@@ -6,6 +6,8 @@
 
 FROM node:16.13.1-alpine as build
 
+ENV BACKEND_URL=http://localhost:5000/api/
+
 COPY . /opt/app
 
 WORKDIR /opt/app
